@@ -24,9 +24,15 @@ const Banner =() => {
     , {params : {append_to_response: "videos"}
     });
     setmovie(movieDetail);
-
-
   }
+
+  //100자 이상 시, "..." 표현
+  const subst = (str, n) => {
+    //str이 있을 때만 n보다 클 때는 잘라주기. 아니면 str 전체 표기
+    return str?.length > n ? str.substring(0,n) + "..." : str;
+  }
+  
+
   return (
     <header
       className='banner'
@@ -50,8 +56,8 @@ const Banner =() => {
           }
         </div>
 
-        <p className='banner_descriptoon'>
-          {movie.overview }
+        <p className='banner_description'>
+          {subst(movie.overview,150) }
         </p>
 
           <div className='banner_fadeBottom'>         
