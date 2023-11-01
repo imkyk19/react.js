@@ -1,6 +1,7 @@
 import axios from '../api/axios';
 import requests from '../api/request';
 import React, { useEffect, useState } from 'react'
+import './Banner.css';
 
 const Banner =() => {
 
@@ -23,11 +24,40 @@ const Banner =() => {
     , {params : {append_to_response: "videos"}
     });
     setmovie(movieDetail);
-    console.log("moviedetail:"+movieDetail);
+
 
   }
   return (
-    <div>Banner</div>
+    <header
+      className='banner'
+      style={{
+        backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie.backdrop_path}")`,
+        backgroundPosition :"top center",
+        backgroundSize : "cover"
+      }}  
+    >
+
+      <div className='banner_contents'>
+        <h1 className='banner_title'>
+          {movie.title || movie.name || movie.original_name}
+        </h1>
+
+        <div className='banner_buttons'>
+          {movie?.videos?.results[0]?.key && 
+            <button className='banner_button play'>
+              play
+            </button>
+          }
+        </div>
+
+        <p className='banner_descriptoon'>
+          {movie.overview }
+        </p>
+
+          <div className='banner_fadeBottom'>         
+          </div>
+      </div>
+    </header>
   )
   
 }
