@@ -4,7 +4,7 @@ import styled from 'styled-components'
 //컴포넌트 사용을 하려면 const로 선언해줘야 함.
 function Nav() {
 
-  //상태 관리
+   //상태 관리
   const [show, setShow] = React.useState(false);
 
   useEffect(() => {
