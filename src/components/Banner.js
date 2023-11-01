@@ -2,10 +2,14 @@ import axios from '../api/axios';
 import requests from '../api/request';
 import React, { useEffect, useState } from 'react'
 import './Banner.css';
+import styled from 'styled-components';
 
 const Banner =() => {
 
   const [movie, setmovie] = useState([]);
+
+  //video play button Click boolean
+  const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -31,9 +35,28 @@ const Banner =() => {
     //str이 있을 때만 n보다 클 때는 잘라주기. 아니면 str 전체 표기
     return str?.length > n ? str.substring(0,n) + "..." : str;
   }
-  
 
-  return (
+  
+  //video play button click event
+  //click, show video
+  if (isClicked) {
+    return(
+      //styled component UI
+      <Container>
+        <HomeContainer>
+        <Iframe width="640" height="360" 
+          src={`https://www.youtube.com/embed/${movie.videos.results[0].key}
+          ?controls=0&autoplay=1&mute=1&loop=1&playlist=${movie.videos.results[0].key}`} 
+          title="By Yugyeomee" frameborder="0" 
+          allow=" autoplay; fullscreen;"> 
+          </Iframe>
+          <button className='CloseVideo' 
+          onClick={()=> setIsClicked(false)}>X</button>
+        </HomeContainer>
+      </Container>
+    )
+  }else {
+    return (
     <header
       className='banner'
       style={{
@@ -50,7 +73,9 @@ const Banner =() => {
 
         <div className='banner_buttons'>
           {movie?.videos?.results[0]?.key && 
-            <button className='banner_button play'>
+            <button className='banner_button play'
+            //video pla button click, value 'True' setting
+            onClick={ ()=> setIsClicked(true)}>
               play
             </button>
           }
@@ -66,6 +91,39 @@ const Banner =() => {
     </header>
   )
   
+  }
 }
-
 export default Banner;
+
+//video play button click, styled component
+const Container = styled.div`
+  disply : flex;
+  justify-content : center;
+  align-items : center;
+  flex-direction : column;
+  width : 100%;
+  height : 100vh;
+`
+
+const HomeContainer = styled.div`
+  width : 100%;
+  height : 50%;
+`
+
+//Iframe : add other pages in this page
+const Iframe = styled.iframe`
+  width : 100%;
+  height : 100%;
+  z-index : -1;
+  opacity : 0.65;
+  border : none;
+
+  $::after {
+    content : "";
+    position : absolute;
+    top : 0;
+    left : 0;
+    width : 100%;
+    height : 100%;
+  }
+`
